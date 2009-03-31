@@ -1,14 +1,18 @@
 class MailingListsController < ApplicationController
+  before_filter :require_no_user, :only => [:blank_join_list]
  
-  def join_list
+  def blank_join_list
     if params[:signup] && params[:signup][:email]
-      fake_user = User.new
-      fake_user.password = fake_user.password_confirmation = "1234"
-      fake_user.email = params[:signup][:email]
-      if fake_user.valid?
+      user = User.new
+      user.password = user.password_confirmation = "1234"
+      user.email = params[:signup][:email]
+      user.name = user.email 
+
+      if user.save
         flash[:notice] = "Thank you. We will add <strong>#{params[:signup][:email]}</strong> to the offers newsletter."
+        user.mailing_lists << MailingList.find_by_name("Promotions")
       else
-        flash[:notice] = "Address not added. It did not look like a valid address. Please try again."
+        flash[:notice] = "Address not added. It did not look like a valid address, or has already been used. Please try again."
       end
     end
     redirect_to :back
