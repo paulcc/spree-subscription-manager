@@ -1,7 +1,7 @@
   <input type="hidden" name="user[mailing_list][0]" value="true" />
   <% MailingList.all.each do |ml| %> 
-  <p>
+  <p style="margin-top: 0px">
     <%= check_box_tag "user[mailing_list][#{ml.id}]", true, (@user.new_record? || @user.mailing_lists.include?(ml)) %>
-    <%= t(ml.form_text) %>
+    <span style="vertical-align: middle;"> <%= t(ml.form_text) %> </span>
   </p>
   <% end %>  
