@@ -1,6 +1,8 @@
 
-role_name = "mail_list"
-if Role.find_by_name(role_name).nil?
-  Role.create :name => role_name
+unless Spree::Config[].nil?
+  role_name = "mail_list"
+  if Role.find_by_name(role_name).nil?
+    Role.create :name => role_name
+  end
 end
 
